@@ -10,7 +10,57 @@
 </head>
 
 <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Initialisation de la scène, de la caméra et du rendu
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
+        // Création des boutons 3D
+        const buttons = [];
+        const buttonCount = 5;
+        const buttonRadius = 2;
+
+        for (let i = 0; i < buttonCount; i++) {
+            const buttonGeometry = new THREE.BoxGeometry(buttonRadius, buttonRadius, buttonRadius);
+            const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const button = new THREE.Mesh(buttonGeometry, buttonMaterial);
+
+            const angle = (i / buttonCount) * Math.PI * 2;
+            const distance = 5;
+
+            button.position.x = Math.cos(angle) * distance;
+            button.position.y = Math.sin(angle) * distance;
+
+            buttons.push(button);
+            scene.add(button);
+        }
+
+        // Configuration de la caméra
+        camera.position.z = 15;
+
+        // Fonction pour faire tourner les boutons en rond
+        const rotateButtons = () => {
+            const speed = 0.005;
+            buttons.forEach((button) => {
+                button.rotation.x += speed;
+                button.rotation.y += speed;
+            });
+        };
+
+        // Fonction d'animation
+        const animate = () => {
+            requestAnimationFrame(animate);
+            rotateButtons();
+            renderer.render(scene, camera);
+        };
+
+        // Appel de la fonction d'animation
+        animate();
+    </script>
 </body>
 
 </html>
