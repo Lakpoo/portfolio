@@ -12,52 +12,76 @@
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Initialisation de la scène, de la caméra et du rendu
+        //init de la scene
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // Création des boutons 3D
-        const buttons = [];
-        const buttonCount = 5;
-        const buttonRadius = 3;
-
-        for (let i = 0; i < buttonCount; i++) {
+        //fonction qui creer les carre
+        const createButton = (text, textureColor, textColor, position) => {
+            const buttonRadius = 3;
             const buttonGeometry = new THREE.BoxGeometry(buttonRadius, buttonRadius, buttonRadius);
-            const buttonMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            const button = new THREE.Mesh(buttonGeometry, buttonMaterial);
+            const buttonMaterials = [
+                new THREE.MeshBasicMaterial({ color: textureColor }), // avant
+                new THREE.MeshBasicMaterial({ color: 0x00ff00 }), // arrière
+                new THREE.MeshBasicMaterial({ color: 0x0000ff }), // gauche
+                new THREE.MeshBasicMaterial({ color: 0xffff00 }), // droit
+                new THREE.MeshBasicMaterial({ color: 0xff00ff }), // haut
+                new THREE.MeshBasicMaterial({ color: 0x00ffff })  // bas
+            ];
+            const button = new THREE.Mesh(buttonGeometry, buttonMaterials);
 
-            const angle = (i / buttonCount) * Math.PI * 2;
-            const distance = 8;
+            // ajout texte sur surface carre
+            const loader = new THREE.FontLoader();
+            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
+                const textGeometry = new THREE.TextGeometry(text, {
+                    font: font,
+                    size: 0.3, // Ajustez la taille du texte
+                    height: 0.1
+                });
+                const textMaterial = new THREE.MeshBasicMaterial({ color: textColor });
+                const text = new THREE.Mesh(textGeometry, textMaterial);
 
-            button.position.x = Math.cos(angle) * distance;
-            button.position.y = Math.sin(angle) * distance;
+                const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
+                text.position.set(-textWidth / 2, buttonRadius + 0.2, buttonRadius + 0.1); // Ajustez la position du texte
 
-            buttons.push(button);
+                button.add(text);
+            });
+
+            button.position.set(position.x, position.y, position.z);
+
             scene.add(button);
-        }
+        };
 
-        // Configuration de la caméra
+        // utilisation de la fonction pour creer les bouton 
+        createButton('Bouton 1', 0xff0000, 0xffffff, { x: -15, y: 4, z: 0 });
+        createButton('Bouton 2', 0x00ff00, 0xffffff, { x: -8, y: -4, z: 0 });
+        createButton('Bouton 3', 0x0000ff, 0xffffff, { x: -1, y: 4, z: 0 });
+        createButton('Bouton 4', 0xffff00, 0xffffff, { x: 6, y: -4, z: 0 });
+        createButton('Bouton 5', 0xff00ff, 0xffffff, { x: 13, y: 4, z: 0 });
+
+        // distance camera
         camera.position.z = 15;
 
-        // Fonction pour faire tourner les boutons en rond
+        // fonction faire tourner les carre 
         const rotateButtons = () => {
             const speed = 0.005;
-            buttons.forEach((button) => {
-                button.rotation.y += speed;
+            scene.traverse((object) => {
+                if (object instanceof THREE.Mesh) {
+                    object.rotation.y += speed;
+                }
             });
         };
 
-        // Fonction d'animation
+        // render
         const animate = () => {
             requestAnimationFrame(animate);
             rotateButtons();
             renderer.render(scene, camera);
         };
 
-        // Appel de la fonction d'animation
         animate();
     </script>
 </body>
