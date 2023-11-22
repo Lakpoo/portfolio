@@ -4,85 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
-    <title>Portfolio</title>
+    <title>Dominik</title>
 </head>
 
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <div class="container">
+        <h1 class="heading" data-target-resolver></h1>
+    </div>
     <script>
-        //init de la scene
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        document.addEventListener("DOMContentLoaded", function () {
+            const resolver = {
+                resolve: function resolve(options, callback) {
+                    // The string to resolve
+                    const resolveString = options.resolveString || options.element.getAttribute('data-target-resolver');
+                    const combinedOptions = Object.assign({}, options, { resolveString: resolveString });
 
-        //fonction qui creer les carre
-        const createButton = (text, textureColor, textColor, position) => {
-            const buttonRadius = 3;
-            const buttonGeometry = new THREE.BoxGeometry(buttonRadius, buttonRadius, buttonRadius);
-            const buttonMaterials = [
-                new THREE.MeshBasicMaterial({ color: textureColor }), // avant
-                new THREE.MeshBasicMaterial({ color: 0x00ff00 }), // arrière
-                new THREE.MeshBasicMaterial({ color: 0x0000ff }), // gauche
-                new THREE.MeshBasicMaterial({ color: 0xffff00 }), // droit
-                new THREE.MeshBasicMaterial({ color: 0xff00ff }), // haut
-                new THREE.MeshBasicMaterial({ color: 0x00ffff })  // bas
-            ];
-            const button = new THREE.Mesh(buttonGeometry, buttonMaterials);
+                    function getRandomInteger(min, max) {
+                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                    };
 
-            // ajout texte sur surface carre
-            const loader = new THREE.FontLoader();
-            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-                const textGeometry = new THREE.TextGeometry(text, {
-                    font: font,
-                    size: 0.3, // Ajustez la taille du texte
-                    height: 0.1
-                });
-                const textMaterial = new THREE.MeshBasicMaterial({ color: textColor });
-                const text = new THREE.Mesh(textGeometry, textMaterial);
+                    function randomCharacter(characters) {
+                        return characters[getRandomInteger(0, characters.length - 1)];
+                    };
 
-                const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
-                text.position.set(-textWidth / 2, buttonRadius + 0.2, buttonRadius + 0.1); // Ajustez la position du texte
+                    function doRandomiserEffect(options, callback) {
+                        const characters = options.characters;
+                        const timeout = options.timeout;
+                        const element = options.element;
+                        const partialString = options.partialString;
 
-                button.add(text);
-            });
+                        let iterations = options.iterations;
 
-            button.position.set(position.x, position.y, position.z);
+                        setTimeout(() => {
+                            if (iterations >= 0) {
+                                const nextOptions = Object.assign({}, options, { iterations: iterations - 1 });
 
-            scene.add(button);
-        };
+                                // Ensures partialString without the random character as the final state.
+                                if (iterations === 0) {
+                                    element.textContent = partialString;
+                                } else {
+                                    // Replaces the last character of partialString with a random character
+                                    element.textContent = partialString.substring(0, partialString.length - 1) + randomCharacter(characters);
+                                }
 
-        // utilisation de la fonction pour creer les bouton 
-        createButton('Bouton 1', 0xff0000, 0xffffff, { x: -15, y: 4, z: 0 });
-        createButton('Bouton 2', 0x00ff00, 0xffffff, { x: -8, y: -4, z: 0 });
-        createButton('Bouton 3', 0x0000ff, 0xffffff, { x: -1, y: 4, z: 0 });
-        createButton('Bouton 4', 0xffff00, 0xffffff, { x: 6, y: -4, z: 0 });
-        createButton('Bouton 5', 0xff00ff, 0xffffff, { x: 13, y: 4, z: 0 });
+                                doRandomiserEffect(nextOptions, callback);
+                            } else if (typeof callback === "function") {
+                                callback();
+                            }
+                        }, options.timeout);
+                    };
 
-        // distance camera
-        camera.position.z = 15;
+                    function doResolverEffect(options, callback) {
+                        const resolveString = options.resolveString;
+                        const characters = options.characters;
+                        const offset = options.offset;
+                        const partialString = resolveString.substring(0, offset);
+                        const combinedOptions = Object.assign({}, options, { partialString: partialString });
 
-        // fonction faire tourner les carre 
-        const rotateButtons = () => {
-            const speed = 0.005;
-            scene.traverse((object) => {
-                if (object instanceof THREE.Mesh) {
-                    object.rotation.y += speed;
+                        doRandomiserEffect(combinedOptions, () => {
+                            const nextOptions = Object.assign({}, options, { offset: offset + 1 });
+
+                            if (offset <= resolveString.length) {
+                                doResolverEffect(nextOptions, callback);
+                            } else if (typeof callback === "function") {
+                                callback();
+                            }
+                        });
+                    };
+
+                    doResolverEffect(combinedOptions, callback);
                 }
-            });
-        };
+            };
 
-        // render
-        const animate = () => {
-            requestAnimationFrame(animate);
-            rotateButtons();
-            renderer.render(scene, camera);
-        };
 
-        animate();
+            /* Some GLaDOS quotes from Portal 2 chapter 9: The Part Where He Kills You
+             * Source: http://theportalwiki.com/wiki/GLaDOS_voice_lines#Chapter_9:_The_Part_Where_He_Kills_You
+             */
+            const strings = [
+                'Bienvenue sur le site qui va acceuil mon portfolio',
+                'Je suis en train de le concevoir veuillez attendre patiemment',
+                'Cela risque de me prende un peu de temps ...',
+                'Vous pouvez revenir plus tard si vous le souhaitez :)',
+                'Mais vous pouvez attendre également cela ne me gêne pas :)',
+                'Tu peut relancer le site peut etre que je l\'ai terminer -_-',
+                '......'];
+
+
+            let counter = 0;
+
+            const options = {
+                // Initial position
+                offset: 0,
+                // Timeout between each random character
+                timeout: 5,
+                // Number of random characters to show
+                iterations: 10,
+                // Random characters to pick from
+                characters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'x', '#', '%', '&', '-', '+', '_', '?', '/', '\\', '='],
+                // String to resolve
+                resolveString: strings[counter],
+                // The element
+                element: document.querySelector('[data-target-resolver]')
+            };
+            function callback() {
+                setTimeout(() => {
+                    counter++;
+
+                    if (counter >= strings.length) {
+                        counter = 0;
+                    }
+
+                    let nextOptions = Object.assign({}, options, { resolveString: strings[counter] });
+                    resolver.resolve(nextOptions, callback);
+                }, 2000); // Délai de 2000 millisecondes (2 secondes) avant de passer à la phrase suivante
+            }
+
+            resolver.resolve(options, callback);
+        });
     </script>
 </body>
 
