@@ -1,26 +1,49 @@
-* {
-    box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;500&display=swap');
 
-html,
-body {
-    height: 100%;
+ul {
+    list-style-type: none;
     margin: 0;
-    font-family: 'Unica One', sans-serif;
-    background: #111;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
 
-.container {
+li {
+    display: inline;
+    float: left;
+    position: relative;
+}
+
+li a {
+    font-family: 'Urbanist', sans-serif;
+    color: black;
+    font-size: 2vh;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    position: relative;
+}
+
+
+header {
+    margin: 2vh;
     display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    font-family: 'Urbanist', sans-serif;
+    font-size: 5vh;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    padding: 5rem;
+    display: flex;
 }
 
-.heading {
-    color: #eee;
-    font-size: 5rem;
-    font-weight: 300;
-    text-transform: uppercase;
+.nav-bar {
+    padding-right: 8vw;
 }
