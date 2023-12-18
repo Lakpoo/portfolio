@@ -27,8 +27,12 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
     position: relative;
+    transition: color 0.3s ease;
 }
 
+li a:hover {
+    color: #007bff;
+}
 
 header {
     margin: 2vh;
@@ -39,11 +43,24 @@ header {
 .title {
     font-family: 'Urbanist', sans-serif;
     font-size: 5vh;
-    align-items: center;
-    justify-content: center;
-    display: flex;
 }
 
 .nav-bar {
     padding-right: 8vw;
+}
+
+.main {
+    display: flex;
+    margin: 30px;
+}
+
+.partie-gauche-image,
+.partie-droite-description {
+    width: 50%;
+}
+
+.mid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
