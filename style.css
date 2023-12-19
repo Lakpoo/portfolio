@@ -51,16 +51,33 @@ header {
 
 .main {
     display: flex;
-    margin: 30px;
+    margin: 50px 0 0 0;
+    height: 87vh;
 }
 
 .partie-gauche-image,
 .partie-droite-description {
     width: 50%;
+    flex-direction: column;
 }
 
 .mid {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.partie-droite-description {
+    margin-left: 50px;
+    align-items: baseline;
+}
+
+.title-main {
+    font-family: 'Urbanist', sans-serif;
+    font-size: 3vh;
+}
+
+.partie-droite-description>h1,
+.partie-droite-description>p {
+    font-family: 'Urbanist', sans-serif;
 }
