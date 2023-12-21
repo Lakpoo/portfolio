@@ -22,7 +22,7 @@
     </div>
     <div class="main">
         <div class="partie-gauche-image mid">
-            <img src="homme.png" alt="homme-costard" class="photo-main">
+            <img src="img-test.png" alt="homme-costard" class="photo-main">
         </div>
         <div class="partie-droite-description mid">
             <h1 class="title-main" data-target-resolver></h1>
@@ -30,7 +30,6 @@
             <p>animé par la passion du code et de la conception web.</p>
         </div>
     </div>
-
 
 
     <script>
@@ -126,7 +125,7 @@
 
                     let nextOptions = Object.assign({}, options, { resolveString: strings[counter] });
                     resolver.resolve(nextOptions, callback);
-                }, 3000); // Délai de 2000 millisecondes (2 secondes) avant de passer à la phrase suivante
+                }, 3000); // Délai en millisecondes avant de passer à la phrase/mot suivante
             }
 
             resolver.resolve(options, callback);
