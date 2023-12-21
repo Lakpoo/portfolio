@@ -36,6 +36,10 @@ li a:hover {
     color: #007bff;
 }
 
+p {
+    font-size: 2.8vh;
+}
+
 .header {
     margin: 2vh;
     display: flex;
@@ -57,19 +61,22 @@ li a:hover {
     height: 87vh;
 }
 
-.partie-gauche-image,
-.partie-droite-description {
+.partie-gauche,
+.partie-droite {
     width: 50%;
     flex-direction: column;
+}
+
+.align-end {
+    align-items: end;
 }
 
 .mid {
     display: flex;
     justify-content: center;
-    align-items: end;
 }
 
-.partie-droite-description {
+.partie-droite {
     align-items: baseline;
 }
 
@@ -78,25 +85,39 @@ li a:hover {
     font-size: 4vh;
 }
 
-p {
-    font-size: 2.5vh;
-}
-
-.partie-droite-description>h1,
-.partie-droite-description>p {
+.partie-droite>h1,
+.partie-droite>p {
     font-family: 'Urbanist', sans-serif;
     margin-bottom: 0.2vh;
 
 }
 
 .photo-main {
-    margin-right: 8vw;
+    margin-right: 16vw;
+}
+
+.nav-bar-a {
+    font-size: 2.5vh;
+}
+
+.ligne-stat {
+    width: 20vw;
+    height: 5vh;
+}
+
+.progress-text {
+    font-family: 'Urbanist', sans-serif;
+    font-size: 2.5vh;
 }
 
 @media screen and (max-width: 768px) {
     .header {
         flex-direction: column;
         align-items: center;
+    }
+
+    .title {
+        margin-bottom: 2vh;
     }
 
     .nav-bar {
@@ -114,15 +135,39 @@ p {
     .main {
         flex-direction: column-reverse;
         height: auto;
+        margin: 0;
     }
 
-    .partie-gauche-image,
-    .partie-droite-description {
+    .main-inverse {
+        flex-direction: column;
+    }
+
+    .partie-gauche,
+    .partie-droite {
         width: 100%;
+        margin-left: 4vw;
     }
 
     .photo-main {
         width: 70vw;
         height: 50vh;
+        margin-top: 6vh;
+    }
+
+    p {
+        white-space: normal;
+    }
+
+    .nav-bar-a {
+        font-size: 3vh;
+    }
+
+    .margin-tel {
+        margin-top: 5vh;
+    }
+
+    .ligne-stat {
+        width: 90vw;
+        height: 5vh;
     }
 }

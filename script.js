@@ -1,110 +1,146 @@
-const resolver = {
-    resolve: function resolve(options, callback) {
-        // The string to resolve
-        const resolveString = options.resolveString || options.element.getAttribute('data-target-resolver');
-        const combinedOptions = Object.assign({}, options, { resolveString: resolveString });
+document.addEventListener("DOMContentLoaded", function () {
+    const resolver = {
+        resolve: function resolve(options, callback) {
+            const resolveString = options.resolveString || options.element.getAttribute('data-target-resolver');
+            const combinedOptions = Object.assign({}, options, { resolveString: resolveString });
 
-        function getRandomInteger(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
+            function getRandomInteger(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            };
 
-        function randomCharacter(characters) {
-            return characters[getRandomInteger(0, characters.length - 1)];
-        };
+            function randomCharacter(characters) {
+                return characters[getRandomInteger(0, characters.length - 1)];
+            };
 
-        function doRandomiserEffect(options, callback) {
-            const characters = options.characters;
-            const timeout = options.timeout;
-            const element = options.element;
-            const partialString = options.partialString;
+            function doRandomiserEffect(options, callback) {
+                const characters = options.characters;
+                const timeout = options.timeout;
+                const element = options.element;
+                const partialString = options.partialString;
 
-            let iterations = options.iterations;
+                let iterations = options.iterations;
 
-            setTimeout(() => {
-                if (iterations >= 0) {
-                    const nextOptions = Object.assign({}, options, { iterations: iterations - 1 });
+                setTimeout(() => {
+                    if (iterations >= 0) {
+                        const nextOptions = Object.assign({}, options, { iterations: iterations - 1 });
 
-                    // Ensures partialString without the random character as the final state.
-                    if (iterations === 0) {
-                        element.textContent = partialString;
-                    } else {
-                        // Replaces the last character of partialString with a random character
-                        element.textContent = partialString.substring(0, partialString.length - 1) + randomCharacter(characters);
+                        if (iterations === 0) {
+                            element.textContent = partialString;
+                        } else {
+                            element.textContent = partialString.substring(0, partialString.length - 1) + randomCharacter(characters);
+                        }
+
+                        doRandomiserEffect(nextOptions, callback);
+                    } else if (typeof callback === "function") {
+                        callback();
                     }
+                }, options.timeout);
+            };
 
-                    doRandomiserEffect(nextOptions, callback);
-                } else if (typeof callback === "function") {
-                    callback();
-                }
-            }, options.timeout);
-        };
+            function doResolverEffect(options, callback) {
+                const resolveString = options.resolveString;
+                const characters = options.characters;
+                const offset = options.offset;
+                const partialString = resolveString.substring(0, offset);
+                const combinedOptions = Object.assign({}, options, { partialString: partialString });
 
-        function doResolverEffect(options, callback) {
-            const resolveString = options.resolveString;
-            const characters = options.characters;
-            const offset = options.offset;
-            const partialString = resolveString.substring(0, offset);
-            const combinedOptions = Object.assign({}, options, { partialString: partialString });
+                doRandomiserEffect(combinedOptions, () => {
+                    const nextOptions = Object.assign({}, options, { offset: offset + 1 });
 
-            doRandomiserEffect(combinedOptions, () => {
-                const nextOptions = Object.assign({}, options, { offset: offset + 1 });
+                    if (offset <= resolveString.length) {
+                        doResolverEffect(nextOptions, callback);
+                    } else if (typeof callback === "function") {
+                        callback();
+                    }
+                });
+            };
 
-                if (offset <= resolveString.length) {
-                    doResolverEffect(nextOptions, callback);
-                } else if (typeof callback === "function") {
-                    callback();
-                }
-            });
-        };
-
-        doResolverEffect(combinedOptions, callback);
-    }
-};
-
-
-/* Some GLaDOS quotes from Portal 2 chapter 9: The Part Where He Kills You
- * Source: http://theportalwiki.com/wiki/GLaDOS_voice_lines#Chapter_9:_The_Part_Where_He_Kills_You
- */
-const strings = [
-    'Bienvenue sur le site qui va acceuil mon portfolio',
-    'Je suis en train de le concevoir veuillez attendre patiemment',
-    'Cela risque de me prende un peu de temps ...',
-    'Vous pouvez revenir plus tard si vous le souhaitez :)',
-    'Mais vous pouvez attendre également cela ne me gêne pas :)',
-    'Tu peut relancer le site peut etre que je l\'ai terminer -_-',
-    '......'];
-
-
-let counter = 0;
-
-const options = {
-    // Initial position
-    offset: 0,
-    // Timeout between each random character
-    timeout: 5,
-    // Number of random characters to show
-    iterations: 10,
-    // Random characters to pick from
-    characters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'x', '#', '%', '&', '-', '+', '_', '?', '/', '\\', '='],
-    // String to resolve
-    resolveString: strings[counter],
-    // The element
-    element: document.querySelector('[data-target-resolver]')
-};
-
-
-// Callback function when resolve completes
-function callback() {
-    setTimeout(() => {
-        counter++;
-
-        if (counter >= strings.length) {
-            counter = 0;
+            doResolverEffect(combinedOptions, callback);
         }
+    };
 
-        let nextOptions = Object.assign({}, options, { resolveString: strings[counter] });
-        resolver.resolve(nextOptions, callback);
-    }, 1000);
-}
+    const strings = [
+        'Bonjour,',
+        'Good morning,',
+        'Dzień dobry,',
+        'Buongiorno,'];
+    let counter = 0;
 
-resolver.resolve(options, callback);
+    const options = {
+        //initialisation
+        offset: 0,
+        // Timeout between each random character
+        timeout: 5,
+        // Nombre de caractere aleatoire genere
+        iterations: 10,
+        // lettre random qui peuvent tomber
+        characters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'x', '#', '%', '&', '-', '+', '_', '?', '/', '\\', '='],
+        // string qui est creer avec les caracteres random
+        resolveString: strings[counter],
+        element: document.querySelector('[data-target-resolver]')
+    };
+
+    function callback() {
+        setTimeout(() => {
+            counter++;
+
+            if (counter >= strings.length) {
+                counter = 0;
+            }
+
+            let nextOptions = Object.assign({}, options, { resolveString: strings[counter] });
+            resolver.resolve(nextOptions, callback);
+        }, 3000); // Délai en millisecondes avant de passer à la phrase/mot suivante
+    }
+
+    resolver.resolve(options, callback);
+
+    const navLinks = document.querySelectorAll('.nav-bar-a');
+
+    // Parcourez chaque lien et ajoutez un écouteur d'événement au clic
+    navLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault(); // Empêche le comportement par défaut du lien
+
+            // Récupérez l'identifiant de la section cible à partir de l'attribut "href"
+            const targetId = link.getAttribute('href').substring(1);
+
+            // Récupérez l'élément de la section cible
+            const targetElement = document.getElementById(targetId);
+
+            // Vérifiez si l'élément cible existe
+            if (targetElement) {
+                // Utilisez la fonction scrollIntoView pour effectuer le défilement en douceur
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+});
+
+//bar de progret
+var lineBar = new ProgressBar.Line("#ligne-progress", {
+    strokeWidth: 4,
+    trailWidth: 0.5,
+    from: { color: "#FF9900" },
+    to: { color: "#00FF99" },
+    text: {
+        value: '0',
+        className: 'progress-text',
+        style: {
+            color: 'black',
+            position: 'absolute',
+            top: '-30px',
+            padding: 0,
+            margin: 0,
+            transform: null
+        }
+    },
+    step: (state, shape) => {
+        shape.path.setAttribute("stroke", state.color);
+        shape.setText(Math.round(shape.value() * 100) + ' %');
+    }
+});
+
+lineBar.animate(1, {
+    duration: 2000
+});
