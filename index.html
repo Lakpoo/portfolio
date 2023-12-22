@@ -13,7 +13,7 @@
 
 <body>
     <div class="header">
-        <div class="title">Dominik KILIAN</div>
+        <div class="title animate__slideInLeft">Dominik KILIAN</div>
         <div class="nav-bar">
             <ul>
                 <li><a href="#a-propos-section" class="nav-bar-a">A Propos</a></li>
@@ -27,9 +27,11 @@
             <img src="image/img-test.png" alt="homme-costard" class="photo-main">
         </div>
         <div class="partie-droite mid">
-            <h1 class="title-main animate__backInRight" data-target-resolver></h1>
-            <p>Je m'appelle Dominik, jeune développeur front-end,</p>
-            <p>animé par la passion du code et de la conception web.</p>
+            <h1 class="title-main underline-text " data-target-resolver></h1>
+            <div class="texte-main ">
+                <p>Je m'appelle Dominik, jeune développeur front-end,</p>
+                <p>animé par la passion du code et de la conception web.</p>
+            </div>
         </div>
     </div>
     <div id="a-propos-section" class="main main-inverse margin-tel">
@@ -129,7 +131,14 @@
 
 
             function callback() {
+                // Ajouter la classe pour le soulignement à l'élément h1 après la résolution
+                const titleElement = document.querySelector('.title-main');
+                titleElement.classList.add('underline-text');
+
                 setTimeout(() => {
+                    // Retirer la classe après un délai (ajustez le délai selon vos besoins)
+                    titleElement.classList.remove('underline-text');
+
                     counter++;
 
                     if (counter >= strings.length) {
@@ -138,7 +147,7 @@
 
                     let nextOptions = Object.assign({}, options, { resolveString: strings[counter] });
                     resolver.resolve(nextOptions, callback);
-                }, 3000); // delai en millisecondes avant de passer à la phrase/mot suivante
+                }, 3000); // Délai en millisecondes avant de passer à la phrase/mot suivante
             }
 
             resolver.resolve(options, callback);
