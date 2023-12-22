@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
     <title>Portfolio</title>
 </head>
 
@@ -25,21 +27,24 @@
             <img src="image/img-test.png" alt="homme-costard" class="photo-main">
         </div>
         <div class="partie-droite mid">
-            <h1 class="title-main" data-target-resolver></h1>
+            <h1 class="title-main animate__backInRight" data-target-resolver></h1>
             <p>Je m'appelle Dominik, jeune développeur front-end,</p>
             <p>animé par la passion du code et de la conception web.</p>
         </div>
     </div>
     <div id="a-propos-section" class="main main-inverse margin-tel">
         <div class="partie-gauche mid">
-            test
+            <div class="test"></div>
         </div>
         <div class="partie-droite mid">
-            <div id="ligne-progress" class="ligne-stat"></div>
+            <div class="ligne-stat" id="ligne-progress"></div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    createProgressBar("#ligne-progress", 4, 0.5, "#FF9900", "#00FF99", 'progress-text', '-30px', 100, 2000);
+                });            
+            </script>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -48,6 +53,7 @@
                     const resolveString = options.resolveString || options.element.getAttribute('data-target-resolver');
                     const combinedOptions = Object.assign({}, options, { resolveString: resolveString });
 
+                    //fonction getRandomInteger et Character sert à avoir les caracteres pour l'effet qui montre des caracteres aleatoire
                     function getRandomInteger(min, max) {
                         return Math.floor(Math.random() * (max - min + 1)) + min;
                     };
@@ -56,6 +62,7 @@
                         return characters[getRandomInteger(0, characters.length - 1)];
                     };
 
+                    //fonction affichage du mot lettre par lettre apres l'effet random
                     function doRandomiserEffect(options, callback) {
                         const characters = options.characters;
                         const timeout = options.timeout;
@@ -81,6 +88,7 @@
                         }, options.timeout);
                     };
 
+                    //appel de toute les fonctions
                     function doResolverEffect(options, callback) {
                         const resolveString = options.resolveString;
                         const characters = options.characters;
@@ -109,20 +117,16 @@
                 'Dzień dobry,',
                 'Buongiorno,'];
             let counter = 0;
-
+            //parametre modulable
             const options = {
-                //initialisation
                 offset: 0,
-                // Timeout between each random character
                 timeout: 5,
-                // Nombre de caractere aleatoire genere
                 iterations: 10,
-                // lettre random qui peuvent tomber
                 characters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'x', '#', '%', '&', '-', '+', '_', '?', '/', '\\', '='],
-                // string qui est creer avec les caracteres random
                 resolveString: strings[counter],
                 element: document.querySelector('[data-target-resolver]')
             };
+
 
             function callback() {
                 setTimeout(() => {
@@ -134,27 +138,23 @@
 
                     let nextOptions = Object.assign({}, options, { resolveString: strings[counter] });
                     resolver.resolve(nextOptions, callback);
-                }, 3000); // Délai en millisecondes avant de passer à la phrase/mot suivante
+                }, 3000); // delai en millisecondes avant de passer à la phrase/mot suivante
             }
 
             resolver.resolve(options, callback);
 
+            //scroll auto apres avoir cliquer sur un bouton de la nav bar
             const navLinks = document.querySelectorAll('.nav-bar-a');
 
-            // Parcourez chaque lien et ajoutez un écouteur d'événement au clic
             navLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
-                    event.preventDefault(); // Empêche le comportement par défaut du lien
+                    event.preventDefault();
 
-                    // Récupérez l'identifiant de la section cible à partir de l'attribut "href"
                     const targetId = link.getAttribute('href').substring(1);
 
-                    // Récupérez l'élément de la section cible
                     const targetElement = document.getElementById(targetId);
 
-                    // Vérifiez si l'élément cible existe
                     if (targetElement) {
-                        // Utilisez la fonction scrollIntoView pour effectuer le défilement en douceur
                         targetElement.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
@@ -162,32 +162,34 @@
         });
 
         //bar de progret
-        var lineBar = new ProgressBar.Line("#ligne-progress", {
-            strokeWidth: 4,
-            trailWidth: 0.5,
-            from: { color: "#FF9900" },
-            to: { color: "#00FF99" },
-            text: {
-                value: '0',
-                className: 'progress-text',
-                style: {
-                    color: 'black',
-                    position: 'absolute',
-                    top: '-30px',
-                    padding: 0,
-                    margin: 0,
-                    transform: null
+        function createProgressBar(selector, strokeWidth, trailWidth, fromColor, toColor, textClass, textTop, initialPercentage, duration) {
+            var lineBar = new ProgressBar.Line(selector, {
+                strokeWidth: strokeWidth,
+                trailWidth: trailWidth,
+                from: { color: fromColor },
+                to: { color: toColor },
+                text: {
+                    value: '0',
+                    className: textClass,
+                    style: {
+                        color: 'black',
+                        position: 'absolute',
+                        top: textTop,
+                        padding: 0,
+                        margin: 0,
+                        transform: null
+                    }
+                },
+                step: (state, shape) => {
+                    shape.path.setAttribute("stroke", state.color);
+                    shape.setText(Math.round(shape.value() * 100) + ' %');
                 }
-            },
-            step: (state, shape) => {
-                shape.path.setAttribute("stroke", state.color);
-                shape.setText(Math.round(shape.value() * 100) + ' %');
-            }
-        });
+            });
 
-        lineBar.animate(1, {
-            duration: 2000
-        });
+            lineBar.animate(initialPercentage / 100, {
+                duration: duration
+            });
+        }
 
     </script>
 </body>
