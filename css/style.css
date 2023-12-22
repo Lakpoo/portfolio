@@ -100,22 +100,22 @@ p {
 
 }
 
-.photo-main {
-    margin-right: 16vw;
-}
-
 .nav-bar-a {
     font-size: 2.5vh;
 }
 
 .ligne-stat {
     width: 20vw;
-    height: 5vh;
+    height: auto;
 }
 
 .progress-text {
     font-family: 'Urbanist', sans-serif;
     font-size: 2.5vh;
+}
+
+.photo-main {
+    margin-right: 14vw;
 }
 
 .test {
@@ -132,6 +132,36 @@ p {
     height: 2px;
     background-color: #007BFF;
     transition: width 0.3s;
+}
+
+.first-row-progress,
+.second-row-progress,
+.third-row-progress {
+    display: flex;
+    height: 33%;
+    width: 100%;
+}
+
+.third-row-progress {
+    display: flex;
+    justify-content: center;
+}
+
+.competence {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-competence {
+    height: 10vh;
+    width: 4.5vw;
+    margin: 3vh;
+}
+
+.progress-text {
+    padding-top: 30px;
 }
 
 @media screen and (max-width: 768px) {

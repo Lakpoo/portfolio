@@ -36,17 +36,64 @@
     </div>
     <div id="a-propos-section" class="main main-inverse margin-tel">
         <div class="partie-gauche mid">
-            <div class="test"></div>
+            test
         </div>
         <div class="partie-droite mid">
-            <div class="ligne-stat" id="ligne-progress"></div>
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    createProgressBar("#ligne-progress", 4, 0.5, "#FF9900", "#00FF99", 'progress-text', '-30px', 100, 2000);
-                });            
-            </script>
+            <div class="first-row-progress">
+                <div class="competence">
+                    <img src="image/html5-logo.png" alt="logo-html" class="logo-competence">
+                    <div class="ligne-stat" id="ligne-progress-1"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            createProgressBar("#ligne-progress-1", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 30, 2000);
+                        });            
+                    </script>
+                </div>
+                <div class="competence">
+                    <img src="image/css3-logo.png" alt="logo-css" class="logo-competence">
+                    <div class="ligne-stat" id="ligne-progress-2"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            createProgressBar("#ligne-progress-2", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 50, 2000);
+                        });            
+                    </script>
+                </div>
+            </div>
+            <div class="second-row-progress">
+                <div class="competence">
+                    <img src="image/sql-logo.png" alt="logo-sql" class="logo-competence">
+                    <div class="ligne-stat" id="ligne-progress-3"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            createProgressBar("#ligne-progress-3", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 100, 2000);
+                        });            
+                    </script>
+                </div>
+                <div class="competence">
+                    <img src="image/c-sharp-logo.png" alt="logo-c-sharp" class="logo-competence">
+                    <div class="ligne-stat" id="ligne-progress-4"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            createProgressBar("#ligne-progress-4", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 100, 2000);
+                        });            
+                    </script>
+                </div>
+            </div>
+            <div class="third-row-progress">
+                <div class="competence">
+                    <img src="image/framework-logo.png" alt="logo-framework" class="logo-competence">
+                    <div class="ligne-stat" id="ligne-progress-5"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            createProgressBar("#ligne-progress-5", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 100, 2000);
+                        });            
+                    </script>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- javascript -->
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
