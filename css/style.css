@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;500&display=swap');
 
-.photo-main {
-    width: 20vw;
-    height: 45vh;
-}
-
 ul {
     list-style-type: none;
     margin: 0;
@@ -58,8 +53,12 @@ p {
 
 .main {
     display: flex;
-    margin: 50px 0 0 0;
-    height: 87vh;
+    height: 85vh;
+}
+
+.photo-main {
+    width: 20vw;
+    height: 45vh;
 }
 
 .partie-gauche,
@@ -79,6 +78,7 @@ p {
 
 .partie-droite {
     align-items: baseline;
+    padding: 3vh;
 }
 
 .title-main {
@@ -115,7 +115,7 @@ p {
 }
 
 .photo-main {
-    margin-right: 14vw;
+    margin-right: 13vw;
 }
 
 .test {
@@ -140,11 +140,6 @@ p {
     display: flex;
     height: 33%;
     width: 100%;
-}
-
-.third-row-progress {
-    display: flex;
-    justify-content: center;
 }
 
 .competence {
@@ -198,8 +193,7 @@ p {
 
     .partie-gauche,
     .partie-droite {
-        width: 100%;
-        margin-left: 4vw;
+        width: auto;
     }
 
     .photo-main {
@@ -222,6 +216,19 @@ p {
 
     .ligne-stat {
         width: 90vw;
-        height: 5vh;
+    }
+
+    .progress-text {
+        width: 20v w;
+    }
+
+    .first-row-progress,
+    .second-row-progress,
+    .third-row-progress {
+        flex-direction: column;
+    }
+
+    .logo-competence {
+        width: auto;
     }
 }
