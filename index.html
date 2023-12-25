@@ -3,12 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Portfolio d'un jeune developpeur polonais">
+    <meta name="author" content="Dominik KILIAN">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
-    <title>Portfolio</title>
+    <title>Portfolio de Dominik KILIAN</title>
 </head>
 
 <body>
@@ -41,60 +43,60 @@
         <div class="partie-droite mid">
             <div class="first-row-progress">
                 <div class="competence">
-                    <img src="image/html5-logo.png" alt="logo-html" class="logo-competence">
+                    <img title="HTML" src="image/html5-logo.png" alt="logo-html" class="logo-competence">
                     <div class="ligne-stat" id="ligne-progress-1"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            createProgressBar("#ligne-progress-1", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 70, 1500);
+                            createProgressBar("#ligne-progress-1", 4, 0.5, "#000", "#000", 'progress-text', '-30px', 70, 1500);
                         });            
                     </script>
                 </div>
                 <div class="competence">
-                    <img src="image/css3-logo.png" alt="logo-css" class="logo-competence">
+                    <img title="CSS" src="image/css3-logo.png" alt="logo-css" class="logo-competence">
                     <div class="ligne-stat" id="ligne-progress-2"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            createProgressBar("#ligne-progress-2", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 60, 1500);
+                            createProgressBar("#ligne-progress-2", 4, 0.5, "#000", "#000", 'progress-text', '-30px', 60, 1500);
                         });            
                     </script>
                 </div>
             </div>
             <div class="second-row-progress">
                 <div class="competence">
-                    <img src="image/js-logo.png" alt="logo-js" class="logo-competence">
+                    <img title="JS" src="image/js-logo.png" alt="logo-js" class="logo-competence">
                     <div class="ligne-stat" id="ligne-progress-3"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            createProgressBar("#ligne-progress-3", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 40, 1500);
+                            createProgressBar("#ligne-progress-3", 4, 0.5, "#000", "#000", 'progress-text', '-30px', 40, 1500);
                         });            
                     </script>
                 </div>
                 <div class="competence">
-                    <img src="image/sql-logo.png" alt="logo-sql" class="logo-competence">
+                    <img title="SQL" src="image/sql-logo.png" alt="logo-sql" class="logo-competence">
                     <div class="ligne-stat" id="ligne-progress-4"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            createProgressBar("#ligne-progress-4", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 50, 1500);
+                            createProgressBar("#ligne-progress-4", 4, 0.5, "#000", "#000", 'progress-text', '-30px', 50, 1500);
                         });            
                     </script>
                 </div>
             </div>
             <div class="third-row-progress">
                 <div class="competence">
-                    <img src="image/c-sharp-logo.png" alt="logo-c-sharp" class="logo-competence">
+                    <img title="C-SHARP" src="image/c-sharp-logo.png" alt="logo-c-sharp" class="logo-competence">
                     <div class="ligne-stat" id="ligne-progress-5"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            createProgressBar("#ligne-progress-5", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 40, 1500);
+                            createProgressBar("#ligne-progress-5", 4, 0.5, "#000", "#000", 'progress-text', '-30px', 40, 1500);
                         });            
                     </script>
                 </div>
                 <div class="competence">
-                    <img src="image/framework-logo.png" alt="logo-framework" class="logo-competence">
+                    <img title="FRAMEWORK" src="image/framework-logo.png" alt="logo-framework" class="logo-competence">
                     <div class="ligne-stat" id="ligne-progress-6"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            createProgressBar("#ligne-progress-6", 4, 0.5, "#505861", "#505861", 'progress-text', '-30px', 30, 1500);
+                            createProgressBar("#ligne-progress-6", 4, 0.5, "#000", "#000", 'progress-text', '-30px', 30, 1500);
                         });            
                     </script>
                 </div>
@@ -106,6 +108,19 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        createProgressBar(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const progressBars = document.querySelectorAll('.ligne-stat');
+            progressBars.forEach(bar => observer.observe(bar));
+
             const resolver = {
                 resolve: function resolve(options, callback) {
                     const resolveString = options.resolveString || options.element.getAttribute('data-target-resolver');
@@ -187,12 +202,10 @@
 
 
             function callback() {
-                // Ajouter la classe pour le soulignement à l'élément h1 après la résolution
                 const titleElement = document.querySelector('.title-main');
                 titleElement.classList.add('underline-text');
 
                 setTimeout(() => {
-                    // Retirer la classe après un délai (ajustez le délai selon vos besoins)
                     titleElement.classList.remove('underline-text');
 
                     counter++;
@@ -226,9 +239,17 @@
             });
         });
 
-        //bar de progret
         function createProgressBar(selector, strokeWidth, trailWidth, fromColor, toColor, textClass, textTop, initialPercentage, duration) {
-            var lineBar = new ProgressBar.Line(selector, {
+            const element = document.querySelector(selector);
+
+            if (!element) {
+                console.error("Element not found:", selector);
+                return;
+            }
+
+            element.style.opacity = 1;
+
+            const lineBar = new ProgressBar.Line(element, {
                 strokeWidth: strokeWidth,
                 trailWidth: trailWidth,
                 from: { color: fromColor },
@@ -251,9 +272,18 @@
                 }
             });
 
-            lineBar.animate(initialPercentage / 100, {
-                duration: duration
-            });
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.target === element) {
+                        lineBar.animate(initialPercentage / 100, {
+                            duration: duration
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(element);
         }
 
     </script>

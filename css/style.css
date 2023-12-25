@@ -159,6 +159,11 @@ p {
     padding-top: 30px;
 }
 
+.ligne-stat {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
 @media screen and (max-width: 768px) {
     .header {
         flex-direction: column;
